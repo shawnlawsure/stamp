@@ -6,7 +6,9 @@ const initialStamp = {
 	description: '',
 	year: '',
 	color: '',
-	image: ''
+	image: null,
+	image_type: '',
+	has_image: false
 };
 
 const initialState = {
@@ -28,39 +30,65 @@ const stamp = (state, action) => {
 				stamp: state.stamp
 			};
 	
-		case 'INIT_STAMP':
+		/*case 'INIT_STAMP':
+			
+		console.log("init stamp");
 
 			var newStamp = initialStamp;
 			if (action.id)
 			{
 				let stamp = state.list.find(function (item) { return item.id === action.id; });
-				if (stamp)
+				if (stamp) {
 					newStamp = stamp;
-				//else
-				//	alert("Error: stamp " + action.id + " could not be found.");
+					console.log(stamp.has_image + ' : ' + stamp.image_type);
+					if (stamp.has_image && !stamp.image) {
+
+						console.log('3');	
+
+						console.log('here');						
+						newStamp.image = getStampImage(action.id);
+
+						console.log(newStamp.image);
+					}
+					console.log(stamp.image);
+				}
+				else
+					console.log("Error: stamp " + action.id + " could not be found.");
+
 			}
 			
 			return {
 				list: state.list,
 				stamp: newStamp
-			};
+			};*/
 
 		case 'SAVE_STAMP':
 
-			//let saveResult = saveStamp(action.data);
-			//if (saveResult)
+			let saveResult = saveStamp(action.data);
+			if (saveResult)
 			{
-				action.data.id = 1; //saveResult;
+				var stamp = {
+					id: saveResult,
+					denomination: action.data.denomination,
+					description: action.data.description,
+					year: action.data.year,
+					color: action.data.color,
+					image: null,
+					image_type: '',
+					has_image: false					
+				}
 
-				let saveImageResult = saveStampImage(action.data);
-				if (saveImageResult)
-				{
-
+				if (action.data.save_file) {
+					let saveImageResult = saveStampImage(action.data);
+					if (!saveImageResult)
+						console.log("An error occurred saving stamp image.")
+					else
+						stamp.has_image = true;
 				}
 
 				let newList = [
-					...state.list,
-					action.data
+					...state.list.filter(item => item.id !== stamp.id),
+					stamp
 				];
 
 				return {
@@ -100,7 +128,7 @@ const stamp = (state, action) => {
 	  default:
 		return state
 	}
-  }
+  };
 
   function saveStamp(stamp)
   {
