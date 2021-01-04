@@ -3,11 +3,6 @@
 	data
   })*/
 
-  export const initStamp = id => ({
-	type: 'INIT_STAMP',
-	id
-  })
-
   export const saveStamp = data => ({
 	type: 'SAVE_STAMP',
 	data

@@ -1,13 +1,12 @@
 import { connect } from 'react-redux'
-import EditStamp from '../../components/EditStamp'
-import { saveStamp} from '../actions/app.js'
+import Stamp from '../../components/Stamp'
 import { getStampImage } from '../../data.js'
 
 function mapStateToProps(state, ownProps) {
 
-	const id = ownProps.match.params.id;
+	const id = ownProps.id;
 	var stamp = state.stamp.list.find(item => item.id === id);
-
+	
 	if (stamp && stamp.has_image && !stamp.image) {
 		stamp.image = getStampImage(id);
 	}
@@ -21,12 +20,10 @@ function mapStateToProps(state, ownProps) {
 		image: stamp ? stamp.image : null,
 		image_type: stamp ? stamp.image_type : '',
 		has_image: stamp ? stamp.has_image : false
-		//housingTypes: state.staticData.housingTypes};
 	};
   }
 
-  const mapDispatchToProps = dispatch => ({
-	saveStamp: data => dispatch(saveStamp(data))
-  })
+  //const mapDispatchToProps = dispatch => ({
+  //})
 
-  export default connect(mapStateToProps, mapDispatchToProps)(EditStamp)
+  export default connect(mapStateToProps, null)(Stamp)

@@ -1,5 +1,6 @@
 import React from 'react'
 //import $ from 'jquery';
+import {NavLink} from "react-router-dom";
 
 class Home extends React.Component
 {
@@ -25,7 +26,12 @@ class Home extends React.Component
 	() {
 		return (
 			<div>
-				<h5>Home</h5>
+				<div>
+					<NavLink to="/list">My Stamps</NavLink>
+				</div>
+				<div>
+					<NavLink to="/edit_stamp">New Stamp</NavLink>
+				</div>
 			</div>
 			);
 		}

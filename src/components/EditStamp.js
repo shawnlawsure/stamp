@@ -10,8 +10,6 @@ class EditStamp extends React.Component
 	{
 		super(props);
 
-		//this.props.initStamp(this.props.match.params.id);
-
 		this.denomination = React.createRef();
 		this.description = React.createRef();
 		this.year = React.createRef();
@@ -20,17 +18,11 @@ class EditStamp extends React.Component
 
 		var image = null;
 		if (this.props.has_image && this.props.image) {
-			//var b64encoded = btoa(String.fromCharCode.apply(null, this.props.image));
-			//console.log('image: ' + this.props.image);
-			//image = "data:" + this.props.image_type + ";base64," + b64encoded;
-
 			var arrayBufferView = new Uint8Array(this.props.image.data);
 			var blob = new Blob( [ arrayBufferView ], { type: this.props.image_type } );
-			var urlCreator = window.URL || window.webkitURL;
-			image = urlCreator.createObjectURL(blob);
+			image = (window.URL || window.webkitURL).createObjectURL(blob);
 		}
-
-		
+	
 		this.state = {
 			file: null,
 			image: image
@@ -46,6 +38,10 @@ class EditStamp extends React.Component
 		})
 	}
 
+	handleImageClick(event)
+	{
+		document.getElementById('inputImageFile').click();
+	}	
 	save(event)
 	{
 		let data = 
@@ -75,7 +71,7 @@ class EditStamp extends React.Component
 				<h5>Add New Stamp</h5>
 				<Form.Group as={Row} controlId='formDenomination'>
 					<Form.Label column sm={2}>Denomination:</Form.Label>
-					<Col sm={1}>
+					<Col sm={10}>
 						<Form.Control 	ref={this.denomination} 
 										type="input" 
 										placeholder="" 
@@ -109,13 +105,29 @@ class EditStamp extends React.Component
 										defaultValue={this.props.color} />
 					</Col>
 				</Form.Group>
-				<Form.Group as={Row} controlId='formImage'>
-					<Form.Label column sm={2}>Image:</Form.Label>
-					<Col sm={1}>
-						<Form.File 	ref={this.file}
+				{this.state.image ? (
+					<Row>
+						<Col sm={12} className="my-auto">
+							<img src={this.state.image} alt="Stamp" width="200" height="240" />
+						</Col>
+					</Row>) 
+				: null }
+				<Form.Group as={Row} controlId='formImage'>	
+					<Col sm={2} />			
+					<Col sm={10}>
+						<Button variant="secondary" 
+								size="sm"
+								style={{float: 'left'}} 
+								onClick={this.handleImageClick}>
+							Select Image
+						</Button>
+						<Form.File 	id="inputImageFile"
+									ref={this.file}
+									style={{display: 'none'}}					
 									name="upload"
-									onChange={this.handleFileChange} />
-						<img src={this.state.image} alt="Stamp" width="200" height="240" />
+									accept="image/*"
+									className="my-auto"
+									onChange={this.handleFileChange} />						
 					</Col>
 				</Form.Group>
 

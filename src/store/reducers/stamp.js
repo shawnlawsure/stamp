@@ -30,38 +30,6 @@ const stamp = (state, action) => {
 				stamp: state.stamp
 			};
 	
-		/*case 'INIT_STAMP':
-			
-		console.log("init stamp");
-
-			var newStamp = initialStamp;
-			if (action.id)
-			{
-				let stamp = state.list.find(function (item) { return item.id === action.id; });
-				if (stamp) {
-					newStamp = stamp;
-					console.log(stamp.has_image + ' : ' + stamp.image_type);
-					if (stamp.has_image && !stamp.image) {
-
-						console.log('3');	
-
-						console.log('here');						
-						newStamp.image = getStampImage(action.id);
-
-						console.log(newStamp.image);
-					}
-					console.log(stamp.image);
-				}
-				else
-					console.log("Error: stamp " + action.id + " could not be found.");
-
-			}
-			
-			return {
-				list: state.list,
-				stamp: newStamp
-			};*/
-
 		case 'SAVE_STAMP':
 
 			let saveResult = saveStamp(action.data);
@@ -96,34 +64,11 @@ const stamp = (state, action) => {
 					stamp: initialStamp
 				};
 
-				/*let stamp = newList.find(function (item) { return item.id === saveResult; });
-				if (stamp)
-					return {
-						list: newList,
-						stamp: stamp
-					};
-				else
-					alert("Error: stamp " + action.id + " could not be found.");*/
-
 			}
-			//else
-			//	alert("An error occurred saving data.");			
+			else
+				alert("An error occurred saving data.");			
 
 			break;
-
-		/*case 'ADD_TODO':
-			return [
-			...state,
-			{
-				id: action.id,
-				text: action.text,
-				completed: false
-			}
-			]
-		case 'TOGGLE_TODO':
-			return state.map(todo =>
-			todo.id === action.id ? { ...todo, completed: !todo.completed } : todo
-			)*/
 
 	  default:
 		return state
